@@ -1,8 +1,10 @@
 package controllerCommandMethods;
 
 import java.io.IOException;
+import java.util.SortedMap;
 
 import controller.Command;
+import dao.DBHelper;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +30,13 @@ public class CommandInPlaing implements Command {
 			Long scoreSec=((Long)(scoreMillis/1000));
 			Long scoreMilisWithoutSec=(Long)scoreMillis%1000;
 			String scoreSecMilliString=scoreSec.toString()+" sec "+scoreMilisWithoutSec+" millis" ;
+			DBHelper dbHelper=new DBHelper();
+			dbHelper.registerUser((String)session.getAttribute("login"), scoreMillis);
+			SortedMap<Long, String> dbData= dbHelper.callSQL();
+			session.setAttribute("dbData", dbData);
+			
 			session.setAttribute("time", scoreSecMilliString);
+			
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/results.jsp");
 			requestDispatcher.forward(request, response);
 			return;
