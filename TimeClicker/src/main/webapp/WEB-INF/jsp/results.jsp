@@ -36,7 +36,7 @@ SortedMap<Long, String> dbMap=(SortedMap<Long, String>)request.getSession(false)
 	Long scoreSec=((Long)(scoreMillis/1000));
 	Long scoreMilisWithoutSec=(Long)scoreMillis%1000;
 	String scoreSecMilliString=scoreSec.toString()+" sec "+scoreMilisWithoutSec+" millis" ;
-    out.print("<h6>"+(++userPlace)+". " + entry.getValue() + " - "
+    out.print("<h6>" + entry.getValue() + " - "
         + scoreSecMilliString+"</h6>");
 }
 	%>

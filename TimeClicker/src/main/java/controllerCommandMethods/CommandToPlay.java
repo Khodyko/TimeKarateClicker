@@ -9,6 +9,7 @@ import controller.Command;
 import dao.DBHelper;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -24,9 +25,10 @@ public void execute(HttpServletRequest request, HttpServletResponse response) th
 	HttpSession session=request.getSession(true);
 
 	String login=request.getParameter("login");
-	session.setAttribute("login", login);
+//	session.setAttribute("login", login);
+	Cookie cookie=new Cookie("login", login);
 	session.setAttribute("toFive", "0");
-
+	response.addCookie(cookie);
 
 	RequestDispatcher requestDispatcher = request.getRequestDispatcher(path);
 	

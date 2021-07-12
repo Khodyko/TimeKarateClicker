@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.Session;
-
+import jakarta.servlet.http.Cookie;
 public class CommandInPlaing implements Command {
 	
 	@Override
@@ -31,7 +31,18 @@ public class CommandInPlaing implements Command {
 			Long scoreMilisWithoutSec=(Long)scoreMillis%1000;
 			String scoreSecMilliString=scoreSec.toString()+" sec "+scoreMilisWithoutSec+" millis" ;
 			DBHelper dbHelper=new DBHelper();
-			dbHelper.registerUser((String)session.getAttribute("login"), scoreMillis);
+			Cookie[] cookies = request.getCookies();
+			String cookieName = "login";
+			Cookie cookie = null;
+			if(cookies !=null) {
+			    for(Cookie c: cookies) {
+			        if(cookieName.equals(c.getName())) {
+			            cookie = c;
+			            break;
+			        }
+			    }
+			}
+			dbHelper.registerUser((String)cookie.getValue(), scoreMillis);
 			SortedMap<Long, String> dbData= dbHelper.callSQL();
 			session.setAttribute("dbData", dbData);
 			
